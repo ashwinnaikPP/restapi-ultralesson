@@ -8,4 +8,9 @@ public class SampleTests {
     public void shouldTestSomething(){
         Assert.assertEquals(1,1);
     }
+
+    @Test
+    public void secondSampleTest(){
+        Assert.assertEquals(5.3,5.3);
+    }
 }

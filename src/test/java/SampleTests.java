@@ -34,7 +34,7 @@ public class SampleTests {
 
     @Test
     public void shouldAddNewUser() {
-        // 1.Arrange 2.Act 3.Assertion
+        // 1.Arrange 2.Act 3.Assertion.
 
         given()
                     .accept(ContentType.JSON)

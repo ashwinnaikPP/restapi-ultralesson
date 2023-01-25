@@ -1,25 +1,28 @@
 import org.hamcrest.Matchers;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
-import static io.restassured.RestAssured.given;
+import users.UsersClient;
 
 public class GetUsersTests {
 
-    @Test
-    public void shouldGetAllTheUsers() {
+    private UsersClient usersClient;
+
+    @BeforeClass
+    public void beforeClass(){
         // 1. Arrange
-        // 2. Act
-        // 3. Assertion
-
-        given()
-                .when()
-                    .get("https://gorest.co.in/public/v2/users")
-                .then()
-                    .statusCode(200)
-                    .log().body()
-                .body("", Matchers.hasSize(10))
-                .body("", Matchers.hasItem(Matchers.hasEntry("gender","female")));
-
+        usersClient = new UsersClient();
     }
 
-
+    @Test
+    public void shouldGetAllTheUsers() {
+        // 2. Act
+        usersClient
+                .getAllUsers()
+                    .then()
+        // 3. Assertion
+                        .statusCode(200)
+                        .log().body()
+                        .body("", Matchers.hasSize(10))
+                        .body("", Matchers.hasItem(Matchers.hasEntry("gender","female")));
+    }
 }

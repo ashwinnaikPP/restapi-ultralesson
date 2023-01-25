@@ -2,6 +2,7 @@ import org.hamcrest.Matchers;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import users.UsersClient;
+import users.create.CreateUserRequestBody;
 
 public class CreateUsersNegativeTests {
 
@@ -15,15 +16,14 @@ public class CreateUsersNegativeTests {
 
     @Test
     public void shouldNotAllowToCreateWithInvalidEmailID() {
-        String body = "{\n" +
-                "    \"name\": \"Tenali Ramakrishna\",\n" +
-                "    \"gender\": \"male\",\n" +
-                "    \"email\": \"tenali.ramakrishna153ce.com\",\n" +
-                "    \"status\": \"active\"\n" +
-                "}";
+        String name = "Tenali Ramakrishna";
+        String gender = "male";
+        String email = "tenali.ramakrishna153ce.com";
+        String status = "active";
+        CreateUserRequestBody userRequestBody = new CreateUserRequestBody(name, gender, email, status);
         //Act
         usersClient
-                .createUser(body)
+                .createUser(userRequestBody)
                     .then()
                         .log().body()
         //Assert

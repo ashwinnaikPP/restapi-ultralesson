@@ -1,10 +1,13 @@
-import org.hamcrest.Matchers;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import users.UsersClient;
 import users.create.CreateUserRequestBody;
+import users.create.response.CreateUserResponse;
 
 import java.util.UUID;
+
+import static org.testng.Assert.assertEquals;
+import static org.testng.Assert.assertNotNull;
 
 public class CreateNewUsersTest {
 
@@ -19,22 +22,23 @@ public class CreateNewUsersTest {
     @Test
     public void shouldAddMaleUser() {
         String email = String.format("%s@gmail.com", UUID.randomUUID());
-        CreateUserRequestBody userRequestBody = CreateUserRequestBody.builder()
-                                                                        .name("Tenali Ramakrishna")
-                                                                        .gender("male")
-                                                                        .email(email)
-                                                                        .status("active")
-                                                                        .build();
+        CreateUserRequestBody userRequestBody =
+                CreateUserRequestBody
+                        .builder()
+                            .name("Tenali Ramakrishna")
+                            .gender("male")
+                            .email(email)
+                            .status("active")
+                            .build();
         //2.Act
-        usersClient
-                .createUser(userRequestBody)
-                    .then()
-                        .log().body()
+        CreateUserResponse createUserResponse = usersClient.createUser(userRequestBody);
+
         //3.Assertion.
-                        .statusCode(201)
-                        .body("id", Matchers.notNullValue())
-                        .body("email", Matchers.equalTo(email))
-                        .body("name", Matchers.equalTo("Tenali Ramakrishna"));
+        assertEquals(createUserResponse.getStatusCode(), 201);
+        assertNotNull(createUserResponse.getId());
+        assertNotNull(createUserResponse.getEmail());
+        assertEquals(createUserResponse.getEmail(), userRequestBody.getEmail());
+        assertEquals(createUserResponse.getName(), "Tenali Ramakrishna");
     }
 
     @Test
@@ -48,14 +52,13 @@ public class CreateNewUsersTest {
                 .status("active")
                 .build();
         //2.Act
-        usersClient
-                .createUser(userRequestBody)
-                    .then()
-                        .log().body()
+        CreateUserResponse createUserResponse = usersClient.createUser(userRequestBody);
+
       //  3.Assertion.
-                        .statusCode(201)
-                        .body("id", Matchers.notNullValue())
-                        .body("email", Matchers.equalTo(email))
-                        .body("name", Matchers.equalTo("Aditi Rao"));
+        assertEquals(createUserResponse.getStatusCode(), 201);
+        assertNotNull(createUserResponse.getId());
+        assertNotNull(createUserResponse.getEmail());
+        assertEquals(createUserResponse.getEmail(), userRequestBody.getEmail());
+        assertEquals(createUserResponse.getName(), "Aditi Rao");
     }
 }
